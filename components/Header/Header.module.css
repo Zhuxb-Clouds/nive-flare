@@ -1,0 +1,71 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  width: 100%;
+  padding: 20px 15%;
+  /* max-width: 65ch; */
+  /* margin: auto; */
+  top: 0;
+  left: 0;
+  right: 0;
+  font-size: 30px;
+  background-color: var(--bg-color);
+  color: var(--color);
+  transition: all 0.2s;
+  font-family: "Lora";
+  z-index: 2;
+  max-height: 90px;
+}
+.title {
+  cursor: pointer;
+  font-family: "Afacad Flux";
+  font-weight: 500;
+}
+
+.header > div {
+  display: flex;
+  align-items: flex-end;
+}
+
+.header > div:nth-child(2) > span {
+  font-size: 24px;
+  margin-left: 20px;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.header > div:nth-child(2) > span:hover {
+  text-decoration: underline;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
+}
+
+.title > span:nth-child(1) {
+  font-size: 40px;
+}
+
+.title > span:nth-child(2),
+.desc {
+  font-size: 30px;
+  font-family: "Noto Serif SC";
+  font-weight: 500;
+}
+
+.desc {
+  font-size: 24px;
+  text-align: center;
+}
+
+.svg {
+  -webkit-user-drag: none;
+  padding: 10px;
+  position: relative;
+  margin: 0 10px;
+  bottom: -10px;
+  transform: scale(0.75) translate(-10%, 5%);
+}

@@ -1,0 +1,68 @@
+@import "./font.css";
+
+:root {
+  --bg-color: #fafdfe;
+  --color: #3b3935;
+  --selection-bg: #4e4e4e;
+  --selection-color: #d3d3d3;
+  --code-after-color: #efef17;
+  --blockquote-bar-color: #1e1e1e;
+  --blockquote-background-color: #f1f1f1;
+}
+
+/* 深色模式 */
+/* @media (prefers-color-scheme: dark) {
+} */
+[data-theme="dark"] {
+  --bg-color: #1c1a16;
+  --color: rgb(220, 220, 220);
+  --selection-bg: #d3d3d3;
+  --selection-color: #242424;
+  --code-after-color: #1717ef;
+  --blockquote-bar-color: #ebebeb;
+  --blockquote-background-color: #313131;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Lato", "Smiley Sans";
+  font-size: 20px;
+  background-color: var(--bg-color);
+  color: var(--color);
+  transition: all 0.2s;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+::selection {
+  background: var(--selection-bg);
+  color: var(--selection-color);
+}
+footer {
+  width: 100%;
+  height: 70px;
+  background-color: #000;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-family: "Noto Serif SC", serif;
+}
+
+/* 针对 WebKit 浏览器（Chrome、Safari） */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #bcbcbc88;
+}

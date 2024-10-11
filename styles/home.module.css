@@ -1,0 +1,43 @@
+.home {
+  display: flex;
+  flex-direction: column;
+}
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.5;
+  margin-block: 2rem;
+}
+.intro > span {
+  width: 100%;
+  text-align: left;
+  font-size: 40px;
+  font-family: "Smiley Sans";
+}
+.intro > span > code {
+  font-family: "Noto Sans SC";
+  font-size: 35px;
+}
+.posts {
+  flex: 4 4;
+}
+.me {
+  transition: all 0.4s;
+  background-color: #d92e8500;
+  height: 100px;
+  -webkit-user-drag: none;
+  width: 80px;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  margin-right: 20px;
+}
+.me:hover {
+  width: 100px;
+  background-color: #d92e85;
+}
+.img {
+  -webkit-user-drag: none;
+}

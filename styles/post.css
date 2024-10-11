@@ -1,0 +1,253 @@
+.post {
+  font-family: "Noto Sans SC";
+  font-size: 20px;
+  padding-block: 5rem;
+  & > h1 {
+    font-family: "Smiley Sans";
+    font-size: 2.5rem;
+    font-weight: 400;
+    margin: 1rem 0;
+    text-align: center;
+    white-space: nowrap;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+  }
+}
+h1,h2,h3,h4,h5,h6 {
+  font-family: "Noto Serif SC";
+}
+
+h1{
+  font-size: 2.25em;
+  margin-block: 1em;
+}
+h2{
+  font-size: 1.75em;
+  margin-block: 0.75em;
+}
+
+h3{
+  font-size: 1.5em;
+  margin-block: 0.75em;
+}
+
+h4{
+  font-size: 1.25em;
+  margin-block: 0.5em;
+}
+
+h5{
+  font-size: 1.1em;
+  margin-block: 0.25em;
+
+}
+
+h6{
+  font-size: 1em;
+  margin-block: 0;
+
+}
+
+/* code 下划线 */
+code {
+  font-family: "Lora";
+  font-style: italic;
+  position: relative;
+  font-weight: 700;
+  z-index: 1;
+  margin: 0 0.25rem;
+  
+  &::after {
+    display: block;
+    content: "";
+    width: calc(100% - 4px);
+    height: 0px;
+    border: 2px solid var(--code-after-color);
+    border-radius: 5px;
+    position: absolute;
+    top: 85%;
+    left: 0%;
+    z-index: -1;
+  }
+}
+/* 代码块 */
+pre > code::after {
+  display: none;
+}
+pre > code::selection,
+span.token::selection {
+  background-color: #d3d3d3;
+  color: #000;
+}
+p {
+  font-size: 0.8rem;
+  letter-spacing: 1.5;
+  margin: 1.5em 0;
+  text-wrap: pretty;
+  & > img {
+    width: 100%;
+  }
+}
+/* 有序/无序 列表 */
+article > ol > li,
+article > ul > li {
+  margin: 1em 0;
+}
+li > p {
+  margin: 0.25em;
+}
+ol {
+  padding-inline-start: 1em;
+  font-size: 1.05em;
+}
+/* 引用 */
+blockquote {
+  position: relative;
+  font-family: "Noto Serif SC";
+  background-color: var(--blockquote-background-color);
+  border-radius: 8px;
+  padding: 2px 10px;
+  
+  p{
+    text-indent: 0;
+    text-wrap: balance;
+    font-size: revert;
+  }
+  & > p:has(strong) {
+    opacity: 0.8;
+    text-align: center;
+  }
+  &::before {
+    content: "";
+    position: absolute;
+    width: 5px;
+    background: var(--blockquote-bar-color);
+    height: 100%;
+    top: 0;
+    left: -16px;
+    border-radius: 
+    calc(infinity * 1px);
+  }
+}
+/* 表格 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 1.2em;
+  text-align: left;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f4f4f4;
+  color: #333;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+td {
+  color: #555;
+}
+
+/* Responsive styling for smaller screens */
+@media screen and (max-width: 600px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  tr {
+    margin-bottom: 15px;
+  }
+
+  th {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  td {
+    border: none;
+    position: relative;
+    padding-left: 50%;
+    text-align: right;
+  }
+
+  td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 10px;
+    text-align: left;
+    font-weight: bold;
+  }
+}
+
+
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+  background: #232323;
+}
+.post {
+  .token.string {
+    color: #9fffd2;
+  }
+  .token.keyword {
+    color: #6ffffd;
+  }
+  .token.function {
+    color: #76c6ff;
+  }
+  .token.builtin,
+  .token.selector {
+    color: #8091ff;
+  }
+
+  .token.attr-name {
+    color: rgb(207, 219, 255);
+  }
+
+  .token.char,
+  .token.inserted {
+    color: #ea9fff;
+  }
+  .token.punctuation {
+    color: #fff;
+  }
+
+  .token.constant,
+  .token.deleted,
+  .token.property,
+  .token.symbol,
+  .token.tag {
+    color: #12ffeb;
+  }
+}
+
+.post a:hover {
+  color: #2045ff;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  scroll-margin-top: 90px; /* 将80px替换为你的header高度 */
+}
+
+.icon-link{
+  content: 'link';
+}
