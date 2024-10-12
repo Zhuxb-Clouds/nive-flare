@@ -23,8 +23,6 @@ export default function LinkTree({ treeData }: { treeData: TreeDataNode[] }) {
   };
 
   const onExpand: TreeProps["onExpand"] = (expandedKeys) => {
-    console.log("onExpand", expandedKeys);
-    console.log("expandedKeys", expandedKeys);
     setExpandedKeys(expandedKeys);
   };
 
