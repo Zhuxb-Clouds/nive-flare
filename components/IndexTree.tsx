@@ -25,12 +25,8 @@ export default function LinkTree({ treeData }: { treeData: TreeDataNode[] }) {
   };
   useEffect(() => {
     const path = window.location.pathname;
-    console.log("path", path);
     if (path.includes("/posts/")) {
       const key = path.replace(/^\/posts\//, "").replace(/\.md$/, "");
-      console.log("key", key);
-      // %E5%85%B6%E4%BB%96/%E6%91%A9%E7%82%B9%E5%9B%BD%E4%BA%A7%E7%B1%BBGalgame%E6%B8%B8%E6%88%8F%E9%A1%B9%E7%9B%AE%E5%88%86%E6%9E%90
-      // 将上面的转换为中文
       setExpandedKeys([decodeURI(key)]);
       setSelectedKeys([decodeURI(key)]);
     }
