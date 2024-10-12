@@ -6,7 +6,7 @@ import { postData } from "../components/postList";
 import { getIndexContent, getPostTree } from "../utils/posts";
 import { getMetaData } from "../utils/meta";
 import { MDXRemote, MDXRemoteProps } from "next-mdx-remote";
-import LinkTree from "../components/linkTree";
+import LinkTree from "../components/IndexTree";
 import type { TreeDataNode } from "antd";
 
 const homePage: NextPage<{ postData: postData; treeData: TreeDataNode[] }> = ({

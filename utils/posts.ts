@@ -17,11 +17,7 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 // externalLinks：使markdown的链接是在新页面打开链接
 import externalLinks from "remark-external-links";
 import { getMetaData } from "./meta";
-interface MatterMark {
-  data: { date: string; tags: string[] };
-  content: string;
-  [key: string]: unknown;
-}
+import { MDXRemoteProps } from "next-mdx-remote";
 
 // posts目录的路径
 const postsDirectory = path.join(process.cwd(), "posts");
@@ -64,6 +60,7 @@ export function getSortedPostsData(): Array<{
   title: string;
   tags: string[];
   path: string;
+  content: MDXRemoteProps;
 }> {
   // 获取所有md文件用于展示首页列表的数据，包含id，元数据（标题，时间）
   const allPostsData = fileNames.map(({ name: fileName, path: filePath }) => {
@@ -84,6 +81,7 @@ export function getSortedPostsData(): Array<{
       title: fileName,
       tags: matterResult.data.tags || [],
       path: getPathById(id),
+      content: matterResult.content as any,
     };
   });
 
