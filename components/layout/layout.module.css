@@ -9,6 +9,7 @@
   margin: 0 auto;
   position: relative;
   display: flex;
+  margin-bottom: 200px;
 }
 .content {
   flex: 1;

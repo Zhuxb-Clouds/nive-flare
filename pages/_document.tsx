@@ -1,6 +1,8 @@
 import { Html, Head, Main, NextScript } from "next/document";
+import { getMetaData } from "../utils/meta";
 
 const MyDocument = () => {
+  const avatar = getMetaData()?.avatar;
   return (
     <Html>
       <Head>
@@ -28,6 +30,7 @@ const MyDocument = () => {
           rel="stylesheet"
           href="https://jsd.cdn.zzko.cn/npm/@wc1font/fontquan-xin-yi-ji-xiang-song/font.css"
         />
+        {avatar ? <link rel="icon" href={avatar} type="image/ico" /> : ""}
       </Head>
       <body>
         <Main />
