@@ -138,7 +138,7 @@ async function main() {
   try {
     await copyDirectory(currentDirectory, targetDirectory);
     await runBuild();
-    await copyDirectory(path.join(__dirname, "../out"), path.join(currentDirectory, "documents"));
+    await copyDirectory(path.join(__dirname, "../out"), path.join(currentDirectory, "_documents"));
   } catch (error) {
     console.error(error);
   }
