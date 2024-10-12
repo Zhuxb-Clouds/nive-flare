@@ -6,6 +6,7 @@ interface Props {
 }
 
 export default function Date({ date, className }: Props) {
+  if (!date) return <></>;
   return (
     <time dateTime={date} className={className}>
       {format(parseISO(date), "yyyy年MM月dd日")}

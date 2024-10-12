@@ -5,8 +5,14 @@
 }
 .body {
   width: 70%;
-  max-width: 75ch;
   min-height: calc(100vh - 160px);
   margin: 0 auto;
   position: relative;
+  display: flex;
+}
+.content {
+  flex: 1;
+}
+.tree {
+  width: 260px;
 }

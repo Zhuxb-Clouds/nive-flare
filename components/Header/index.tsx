@@ -4,7 +4,9 @@ import React, { useState } from "react";
 import Image from "next/image";
 import SunIcon from "../../public/sun.svg";
 import MoonIcon from "../../public/moon.svg";
+import GithubIcon from "../../public/github.svg";
 import { useEffect } from "react";
+import { getMetaData } from "../../utils/meta";
 
 function Header() {
   const [mode, setMode] = useState("dark");
@@ -22,31 +24,28 @@ function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.title}>
-        <span>
-          <Link href="/">Zhuxb&apos;s Blog</Link>
+        <Link href="/">{getMetaData().logo || getMetaData().title}</Link>
+        <Image
+          src={mode == "dark" ? SunIcon : MoonIcon}
+          alt=""
+          width={50}
+          height={50}
+          className={styles.svg}
+          onClick={switchMode}
+          style={{ fill: mode == "dark" ? "white" : "black" }}
+        ></Image>
+      </div>
+      <div className={styles.menu}>
+        <a target="view_window" href="https://github.com/Zhuxb-Clouds">
           <Image
-            src={mode == "dark" ? SunIcon : MoonIcon}
+            src={GithubIcon}
             alt=""
             width={50}
             height={50}
             className={styles.svg}
-            onClick={switchMode}
-            style={{ fill: mode == "dark" ? "white" : "black" }}
+            style={{ filter: mode == "dark" ? "invert(1)" : "invert(0)" }}
           ></Image>
-        </span>
-      </div>
-      <div className={styles.menu}>
-        <span>
-          <Link href="/about">About</Link>
-        </span>
-        <span>
-          <Link href="/posts">Posts</Link>
-        </span>
-        <span>
-          <a target="view_window" href="https://github.com/Zhuxb-Clouds">
-            Github
-          </a>
-        </span>
+        </a>
       </div>
     </header>
   );

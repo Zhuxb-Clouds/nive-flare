@@ -3,14 +3,19 @@ import Link from "next/link";
 import Date from "../date";
 import Tag from "../tag";
 
+import { MDXRemoteProps } from "next-mdx-remote";
+
 export interface postsData {
-  postsData: {
-    date: string;
-    title: string;
-    id: string;
-    tags: string[];
-    path: string;
-  }[];
+  postsData: postData[];
+}
+
+export interface postData {
+  date: string;
+  title: string;
+  id: string;
+  tags: string[];
+  path: string;
+  content: MDXRemoteProps;
 }
 
 const posts = ({ postsData }: postsData) => {

@@ -16,6 +16,7 @@ import rehypeKatex from "rehype-katex";
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 // externalLinks：使markdown的链接是在新页面打开链接
 import externalLinks from "remark-external-links";
+import { getMetaData } from "./meta";
 interface MatterMark {
   data: { date: string; tags: string[] };
   content: string;
@@ -38,12 +39,11 @@ function getAllFiles(directory: string): { name: string, path: string }[] {
       result = result.concat(getAllFiles(fullPath));
     } else {
       // 获取相对路径作为 path
-      console.log('fullPath', fullPath)
       const relativePath = path.relative(postsDirectory, fullPath);
       if (file.includes(".md")) {
         result.push({
           name: file.replace(/\.md$/, ""), // 去掉 `.md` 扩展名
-          path: relativePath,
+          path: relativePath.replaceAll("\\", "/"),
         });
       }
     }
@@ -75,16 +75,14 @@ export function getSortedPostsData(): Array<{
 
     // 读取md文件内容
     const fileContents = fs.readFileSync(fullPath, "utf8");
-    // 获取文件创建日期
-    const stats = fs.statSync(fullPath)
 
     // 使用matter提取md文件元数据：{data:{//元数据},content:'内容'}
     const matterResult = matter(fileContents);
     return {
       id,
-      date: format(matterResult.data.date || stats.birthtime, "yyyy-MM-dd"),
+      date: matterResult.data.date ? format(matterResult.data.date, "yyyy-MM-dd") : "",
       title: fileName,
-      tags: matterResult?.data?.tags || [],
+      tags: matterResult.data.tags || [],
       path: getPathById(id),
     };
   });
@@ -123,7 +121,7 @@ export function getAllPostParams(): {
         // 将文件名hash生成数字作为id
         id: getUuid(name),
         name,
-        slug: path.replace(/\.md$/, "").split("\\").filter(Boolean),
+        slug: path.replace(/\.md$/, "").split("/").filter(Boolean),
       },
     };
   });
@@ -147,8 +145,8 @@ export async function getPostData(slug: string[]) {
       },
     }),
     title: slug.at(-1),
-    date: format(matterResult.data.date, "yyyy-MM-dd"),
-    tags: matterResult.data.tags,
+    date: matterResult.data.date ? format(matterResult.data.date, "yyyy-MM-dd") : "",
+    tags: matterResult.data.tags || [],
   };
 }
 
@@ -170,4 +168,40 @@ export function getPostsByCondition(condition: { tags?: string[]; keyWord?: stri
 
 function getPathById(id: string) {
   return fileNames.find(({ name }) => getUuid(name) === id)?.path.replace(".md", "") || "";
+}
+
+
+export function getIndexContent() {
+  const filename = fileNames.find(i => i.path === getMetaData().indexPath);
+  if (!filename) return;
+  return getPostData(filename.path.replace(/\.md$/, "").split("/"))
+}
+
+
+export function getPostTree() {
+  const treeData: { title: string, key: string, children?: { title: string, key: string }[] }[] = [];
+  fileNames.forEach(({ name, path }) => {
+    const slug = path.replace(/\.md$/, "").split("/").filter(Boolean);
+    let parent = treeData;
+    for (let i = 0; i < slug.length; i++) {
+      const index = parent.findIndex(item => item.title === slug[i]);
+      if (index === -1) {
+        const newParent = {
+          title: slug[i],
+          key: slug.slice(0, i + 1).join("/"),
+          children: i === slug.length - 1 ? undefined : [],
+        };
+        if (newParent.children) {
+          parent.push(newParent);
+        } else {
+          parent.unshift(newParent);
+        }
+
+        parent = newParent.children = [];
+      } else {
+        parent = parent[index].children || [];
+      }
+    }
+  });
+  return treeData;
 }

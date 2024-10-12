@@ -1,38 +1,32 @@
-
 import Link from "next/link";
 import type { NextPage } from "next";
 import Head from "next/head";
 import style from "../styles/home.module.css";
-import PostList, { postsData } from "../components/postList";
-import { getSortedPostsData } from "../utils/posts";
+import { postData } from "../components/postList";
+import { getIndexContent, getPostTree } from "../utils/posts";
+import { getMetaData } from "../utils/meta";
+import { MDXRemote, MDXRemoteProps } from "next-mdx-remote";
+import LinkTree from "../components/linkTree";
+import type { TreeDataNode } from "antd";
 
-const homePage: NextPage<postsData> = ({ postsData }) => {
+const homePage: NextPage<{ postData: postData; treeData: TreeDataNode[] }> = ({
+  postData,
+  treeData,
+}) => {
   return (
     <div>
       <Head>
-        <title>Zhuxb&apos;s blog</title>
+        <title>{getMetaData().title}</title>
       </Head>
       <div className={style.home}>
-        <div className={style.intro}>
-          <span>
-            你好👋！我是
-            <code>
-              <ruby>
-                朱仙变
-                <rp>(</rp>
-                <rt>Zhuxb</rt>
-                <rp>)</rp>
-              </ruby>
-            </code>
-            。
-          </span>
-
-        </div>
-        <div className={style.posts}>
-          <p>历史博文</p>
-          <PostList postsData={postsData} />
-          <Link href={"/posts"}>查看更多 {"->"} </Link>
-        </div>
+        <aside className={style.aside}>
+          <div style={{ position: "sticky", top: "90px" }}>
+            <LinkTree treeData={treeData} />
+          </div>
+        </aside>
+        <article className={style.content}>
+          <MDXRemote {...postData.content}></MDXRemote>
+        </article>
       </div>
     </div>
   );
@@ -40,10 +34,12 @@ const homePage: NextPage<postsData> = ({ postsData }) => {
 export default homePage;
 
 export async function getStaticProps() {
-  const postsData = getSortedPostsData();
+  const postsData = await getIndexContent();
+  const treeData = getPostTree();
   return {
     props: {
-      postsData: postsData.slice(0, 5),
+      postData: postsData,
+      treeData,
     },
   };
 }

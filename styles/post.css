@@ -16,7 +16,7 @@
   }
 }
 h1,h2,h3,h4,h5,h6 {
-  font-family: "Noto Serif SC";
+  font-family: "Mi sans";
 }
 
 h1{
@@ -82,7 +82,7 @@ span.token::selection {
   color: #000;
 }
 p {
-  font-size: 0.8rem;
+  font-size: 1rem;
   letter-spacing: 1.5;
   margin: 1.5em 0;
   text-wrap: pretty;
