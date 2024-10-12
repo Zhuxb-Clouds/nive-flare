@@ -112,15 +112,16 @@ function runBuild() {
   return new Promise((resolve, reject) => {
     const buildProcess = spawn(
       /^win/.test(process.platform) ? "npm.cmd" : "npm",
-      ["run", "build"],
+      ["run", "export"],
       {
         cwd: path.join(__dirname, "../"),
         stdio: "inherit",
+        shell: true,
       }
     );
     buildProcess.on("close", (code) => {
       if (code !== 0) {
-        reject(`构建失败，退出代码: ${code}`);
+        reject(`Build Fail Error: ${code}`);
       } else {
         resolve();
       }
@@ -137,6 +138,7 @@ async function main() {
   try {
     await copyDirectory(currentDirectory, targetDirectory);
     await runBuild();
+    await copyDirectory(path.join(__dirname, "../out"), path.join(currentDirectory, "documents"));
   } catch (error) {
     console.error(error);
   }
