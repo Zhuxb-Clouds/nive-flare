@@ -32,10 +32,6 @@ const MyDocument = () => {
         />
         {avatar ? <link rel="icon" href={avatar} type="image/ico" /> : ""}
       </Head>
-      <body>
-        <Main />
-        <NextScript />
-      </body>
       <script
         dangerouslySetInnerHTML={{
           __html: `
@@ -47,6 +43,10 @@ const MyDocument = () => {
               `,
         }}
       />
+      <body>
+        <Main />
+        <NextScript />
+      </body>
     </Html>
   );
 };
