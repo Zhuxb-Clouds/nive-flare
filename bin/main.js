@@ -3,7 +3,6 @@
 const fs = require("fs");
 const path = require("path");
 const { spawn, exec } = require("child_process");
-const ProgressBar = require('progress');
 const targetDirectory = path.join(__dirname, "../posts"); // 目标目录
 const currentDirectory = process.cwd();
 
