@@ -20,7 +20,7 @@ export default function LinkTree({ treeData }: { treeData: TreeDataNode[] }) {
       window.location.href =
         selectedKeys[0] === getMetaData().indexPath.replace(/\.md$/, "")
           ? "/"
-          : `/posts/${selectedKeys[0]}`;
+          : `/posts/${info.node.key}`;
     }
   };
   useEffect(() => {
