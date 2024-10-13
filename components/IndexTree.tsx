@@ -10,9 +10,9 @@ export default function LinkTree({ treeData }: { treeData: TreeDataNode[] }) {
   const router = useRouter();
   const currentUrl = router.asPath;
   const onSelect: TreeProps["onSelect"] = (selectedKeys, info) => {
-    // 如果是叶子节点，就跳转，否则展开/收起
     // 如果与当前选中的相同，则不处理
     if (info.node.key == decodeURI(currentUrl).replace("/posts/", "")) return;
+    // 如果是叶子节点，就跳转，否则展开/收起
     if (info.node.children?.length) {
       setExpandedKeys(
         expandedKeys.includes(info.node.key)
@@ -21,7 +21,7 @@ export default function LinkTree({ treeData }: { treeData: TreeDataNode[] }) {
       );
     } else {
       window.location.href =
-        selectedKeys[0] === getMetaData().indexPath.replace(/\.md$/, "")
+        info.node.key === getMetaData().indexPath.replace(/\.md$/, "")
           ? "/"
           : `/posts/${info.node.key}`;
     }
