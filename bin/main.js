@@ -1,13 +1,14 @@
 #!/usr/bin/env node
+
 const fs = require("fs");
 const path = require("path");
 const { spawn, exec } = require("child_process");
-
+const ProgressBar = require('progress');
 const targetDirectory = path.join(__dirname, "../posts"); // 目标目录
 const currentDirectory = process.cwd();
 
 // 要忽略的文件和文件夹
-const ignoreList = ["node_modules", ".git"]; // 添加你想要忽略的文件和文件夹
+const ignoreList = ["node_modules", ".git","_documents"]; // 添加你想要忽略的文件和文件夹
 
 // 创建目标目录
 function createDirectory(dir) {
