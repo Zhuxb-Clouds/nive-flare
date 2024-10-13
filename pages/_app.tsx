@@ -6,10 +6,10 @@
 import type { AppProps } from "next/app";
 import Layout from "../components/layout";
 import { ConfigProvider, theme } from "antd";
+import { useEffect, useState } from "react";
 import "../styles/globals.css";
 import "../styles/post.css";
 import "../styles/antd.css";
-import { useEffect, useState } from "react";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [mode, setMode] = useState<string>("light");

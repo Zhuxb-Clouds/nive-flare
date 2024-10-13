@@ -9,6 +9,7 @@ import { MDXRemote, MDXRemoteProps } from "next-mdx-remote";
 import LinkTree from "../components/IndexTree";
 import type { TreeDataNode } from "antd";
 
+
 const homePage: NextPage<{ postData: postData; treeData: TreeDataNode[] }> = ({
   postData,
   treeData,

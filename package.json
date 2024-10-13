@@ -14,6 +14,7 @@
     "NiveFlare": "bin/main.js"
   },
   "dependencies": {
+    "@ant-design/cssinjs": "^1.21.1",
     "@reduxjs/toolkit": "^1.9.1",
     "@types/node": "18.11.10",
     "@types/react": "^18.0.10",
