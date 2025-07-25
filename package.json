@@ -1,6 +1,6 @@
 {
   "name": "nive-flare",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "NiveFlare automatically converts your Markdown documents into stunning HTML files, simplifying the process with Node.js and Next.js for accessible, engaging content.",
   "main": "index.js",
   "scripts": {
@@ -16,8 +16,8 @@
   "dependencies": {
     "@ant-design/cssinjs": "^1.21.1",
     "@reduxjs/toolkit": "^1.9.1",
-    "@types/node": "18.11.10",
-    "@types/react": "^18.0.10",
+    "@types/node": "^24.1.0",
+    "@types/react": "^19.1.8",
     "@types/react-dom": "^18.0.5",
     "@types/remark-prism": "^1.3.4",
     "antd": "^5.21.3",
@@ -26,7 +26,7 @@
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.5",
     "gray-matter": "^4.0.3",
-    "next": "13.0.5",
+    "next": "^15.4.4",
     "next-mdx-remote": "^4.2.0",
     "next-redux-wrapper": "^8.0.0",
     "prismjs": "^1.29.0",
@@ -40,7 +40,7 @@
     "remark-gfm": "^3.0.1",
     "remark-math": "^5.1.1",
     "remark-prism": "^1.3.6",
-    "typescript": "4.9.3"
+    "typescript": "^5.8.3"
   },
   "devDependencies": {
     "file-loader": "^6.2.0",
