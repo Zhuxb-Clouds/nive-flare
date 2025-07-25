@@ -3,7 +3,7 @@
  * @FileName:
  * @FileDescription:
  */
-import type { AppProps } from "next/app";
+import { AppProps } from "next/app";
 import Layout from "../components/layout";
 import { ConfigProvider, theme } from "antd";
 import { useEffect, useState } from "react";

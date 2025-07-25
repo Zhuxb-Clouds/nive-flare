@@ -1,13 +1,13 @@
 import Link from "next/link";
-import type { NextPage } from "next";
+import { NextPage } from "next";
 import Head from "next/head";
 import style from "../styles/home.module.css";
-import type { postData } from "../components/postList";
+import { postData } from "../components/postList";
 import { getIndexContent, getPostTree } from "../utils/posts";
 import { getMetaData } from "../utils/meta";
 import { MDXRemote } from "next-mdx-remote";
 import LinkTree from "../components/IndexTree";
-import type { TreeNode } from "../components/IndexTree";
+import { TreeNode } from "../components/IndexTree";
 
 
 const homePage: NextPage<{ postData: postData; treeData: TreeNode[] }> = ({

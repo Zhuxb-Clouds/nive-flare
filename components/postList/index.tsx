@@ -3,7 +3,7 @@ import Link from "next/link";
 import Date from "../date";
 import Tag from "../tag";
 
-import type { MDXRemoteProps } from "next-mdx-remote";
+import { MDXRemoteProps } from "next-mdx-remote";
 
 export interface postsData {
   postsData: postData[];

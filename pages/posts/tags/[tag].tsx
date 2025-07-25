@@ -1,10 +1,10 @@
-import type { GetStaticProps, GetStaticPaths } from "next";
+import { GetStaticProps, GetStaticPaths } from "next";
 import { getPostsByCondition } from "../../../utils/posts";
 import Head from "next/head";
 import style from "./tag.module.css";
 import PostList from "../../../components/postList";
 import Tag from "../../../components/tag";
-import type { MDXRemoteProps } from "next-mdx-remote";
+import { MDXRemoteProps } from "next-mdx-remote";
 import tags from "../../../components/tag/tagColorList.json";
 interface Props {
   postsData: {

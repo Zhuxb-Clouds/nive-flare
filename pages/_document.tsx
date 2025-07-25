@@ -1,7 +1,7 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import { getMetaData } from "../utils/meta";
 import { createCache, extractStyle, StyleProvider } from "@ant-design/cssinjs";
-import type { DocumentContext } from "next/document";
+import { DocumentContext } from "next/document";
 
 const MyDocument = () => {
   const avatar = getMetaData()?.avatar;
@@ -38,7 +38,7 @@ const MyDocument = () => {
         dangerouslySetInnerHTML={{
           __html: `
                 (function() {
-                  var savedMode = localStorage.getItem("mode") || 
+                  var savedMode = localStorage.getItem("mode") ||
                     (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
                   document.documentElement.setAttribute('data-theme', savedMode);
                 })();
@@ -59,11 +59,11 @@ MyDocument.getInitialProps = async (ctx: DocumentContext) => {
   ctx.renderPage = () =>
     originalRenderPage({
       enhanceApp: (App) => (props) =>
-        (
-          <StyleProvider cache={cache}>
-            <App {...props} />
-          </StyleProvider>
-        ),
+      (
+        <StyleProvider cache={cache}>
+          <App {...props} />
+        </StyleProvider>
+      ),
     });
 
   const initialProps = await Document.getInitialProps(ctx);
