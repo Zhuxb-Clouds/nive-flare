@@ -17,7 +17,7 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 // externalLinks：使markdown的链接是在新页面打开链接
 import externalLinks from "remark-external-links";
 import { getMetaData } from "./meta";
-import { MDXRemoteProps } from "next-mdx-remote";
+import type { MDXRemoteProps } from "next-mdx-remote";
 
 // posts目录的路径
 const postsDirectory = path.join(process.cwd(), "posts");

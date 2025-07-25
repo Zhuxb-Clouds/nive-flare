@@ -6,10 +6,12 @@ import homeStyle from "../../styles/home.module.css";
 import Tag from "../../components/tag";
 import Date from "../../components/date";
 // 引入代码高亮css
-import { MDXRemote, MDXRemoteProps } from "next-mdx-remote";
+import { MDXRemote } from "next-mdx-remote";
+import type { MDXRemoteProps } from "next-mdx-remote";
 import "prismjs/themes/prism-okaidia.min.css";
 import style from "./post.module.css";
-import LinkTree, { TreeNode } from "../../components/IndexTree";
+import LinkTree from "../../components/IndexTree";
+import type { TreeNode } from "../../components/IndexTree";
 interface Props {
   postData: {
     title: string;
