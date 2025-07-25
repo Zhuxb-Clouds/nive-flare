@@ -11,12 +11,12 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "esnext",
+    "module": "Node16",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "verbatimModuleSyntax": false,
     "jsx": "preserve",
-    "moduleResolution": "bundler", // 或 "node16"/"nodenext"
+    "moduleResolution": "node16",
     "target": "es2020",
     "incremental": true
   },
