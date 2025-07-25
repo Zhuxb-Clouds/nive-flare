@@ -1,6 +1,6 @@
 {
   "name": "nive-flare",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "NiveFlare automatically converts your Markdown documents into stunning HTML files, simplifying the process with Node.js and Next.js for accessible, engaging content.",
   "main": "index.js",
   "scripts": {
