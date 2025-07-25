@@ -16,4 +16,13 @@ module.exports = {
   typescript: {
     ignoreBuildErrors: false, // 确保类型检查
   },
+  webpack: (config, { isServer }) => {
+    // 确保 TypeScript 文件被正确处理
+    config.module.rules.push({
+      test: /\.(ts|tsx)$/,
+      loader: "ts-loader",
+      options: { transpileOnly: true },
+    });
+    return config;
+  },
 };
