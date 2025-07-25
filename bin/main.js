@@ -9,7 +9,7 @@ const CONFIG = {
   targetDir: path.join(__dirname, "../posts"), // 目标目录
   outputDir: path.join(process.cwd(), "_documents"), // 最终输出目录
   ignoreList: ["node_modules", ".git", "_documents", ".github"], // 忽略项
-  buildCommand: ["run", "export"] // 构建命令
+  buildCommand: ["run", "build"] // 构建命令
 };
 
 // 工具函数：检查路径是否在忽略列表中
@@ -88,7 +88,7 @@ const build = async () => {
     console.log('[3/3] Moving output files...');
     await ensureDir(CONFIG.outputDir);
     await clearDir(CONFIG.outputDir);
-    await copyItem(path.join(__dirname, "../out"), CONFIG.outputDir);
+    await copyItem(path.join(__dirname, "../build"), CONFIG.outputDir);
 
     console.log('✅ Done!');
   } catch (err) {
