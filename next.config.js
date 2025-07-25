@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
   reactStrictMode: true,
+  swcMinify: true,
   distDir: "build",
   images: {
     unoptimized: true,
@@ -8,16 +9,10 @@ module.exports = {
   experimental: {
     largePageDataBytes: 128 * 100000,
   },
-  webpack: (config) => {
-    // 强制所有 .ts/.tsx 文件走 Babel 编译
-    config.module.rules.push({
-      test: /\.(ts|tsx)$/,
-      loader: 'babel-loader',
-      options: {
-        cacheDirectory: true,
-      },
-    });
-
-    return config;
+  compiler: {
+    styledComponents: true, // 如果使用了 styled-components
+  },
+  typescript: {
+    ignoreBuildErrors: false, // 确保类型检查
   },
 };
