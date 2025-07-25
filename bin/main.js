@@ -1,147 +1,147 @@
 #!/usr/bin/env node
-
 const fs = require("fs");
 const path = require("path");
-const { spawn, exec } = require("child_process");
-const targetDirectory = path.join(__dirname, "../posts"); // 目标目录
-const currentDirectory = process.cwd();
+const { spawn } = require("child_process");
 
-// 要忽略的文件和文件夹
-const ignoreList = ["node_modules", ".git","_documents"]; // 添加你想要忽略的文件和文件夹
+// 配置项
+const CONFIG = {
+  sourceDir: process.cwd(), // 当前工作目录
+  targetDir: path.join(__dirname, "../posts"), // 目标目录
+  outputDir: path.join(process.cwd(), "_documents"), // 最终输出目录
+  ignoreList: ["node_modules", ".git", "_documents", ".github"], // 忽略项
+  buildCommand: ["run", "export"] // 构建命令
+};
 
-// 创建目标目录
-function createDirectory(dir) {
-  return new Promise((resolve, reject) => {
-    fs.mkdir(dir, { recursive: true }, (err) => {
-      if (err) {
-        reject(`Error in mkdir: ${err.message}`);
-      } else {
-        resolve();
-      }
-    });
-  });
-}
+// 工具函数：检查路径是否在忽略列表中
+const shouldIgnore = (item) => CONFIG.ignoreList.some(ignored => item.includes(ignored));
 
-function clearDirectory(dir) {
-  return new Promise((resolve, reject) => {
-    fs.readdir(dir, (err, items) => {
-      if (err) {
-        return reject(`读取目录时出错: ${err.message}`);
-      }
-
-      // 创建一个数组来存储删除操作的 Promise
-      const deletePromises = items.map((item) => {
-        const itemPath = path.join(dir, item);
-
-        return new Promise((resolve, reject) => {
-          fs.stat(itemPath, (err, stats) => {
-            if (err) {
-              return reject(`获取文件信息时出错: ${err.message}`);
-            }
-
-            if (stats.isDirectory()) {
-              // 递归删除目录
-              clearDirectory(itemPath)
-                .then(() => fs.rmdir(itemPath, resolve)) // 删除空目录
-                .catch(reject);
-            } else {
-              // 删除文件
-              fs.unlink(itemPath, (err) => {
-                if (err) {
-                  return reject(`删除文件时出错: ${err.message}`);
-                }
-                console.log(`已删除文件: ${itemPath}`);
-                resolve();
-              });
-            }
-          });
-        });
-      });
-
-      // 等待所有删除操作完成
-      Promise.all(deletePromises).then(resolve).catch(reject);
-    });
-  });
-}
-
-// 复制文件
-function copyFile(source, target) {
-  return new Promise((resolve, reject) => {
-    fs.copyFile(source, target, (err) => {
-      if (err) {
-        reject(`Error in copy files: ${err.message}`);
-      } else {
-        console.log(`copied: ${source} -> ${target}`);
-        resolve();
-      }
-    });
-  });
-}
-
-// 复制目录
-async function copyDirectory(source, target) {
-  // 如果目标目录存在，先清空它
-  if (fs.existsSync(target)) {
-    await clearDirectory(target);
-  } else {
-    // 否则创建目标目录
-    await createDirectory(target);
-  }
-
-  const items = await fs.promises.readdir(source);
-  for (const item of items) {
-    if (ignoreList.includes(item)) {
-      console.log(`ignored: ${item}`);
-      continue; // 跳过忽略列表中的文件或文件夹
-    }
-
-    const sourcePath = path.join(source, item);
-    const targetPath = path.join(target, item);
-    const stats = await fs.promises.stat(sourcePath);
-
-    if (stats.isDirectory()) {
-      await copyDirectory(sourcePath, targetPath);
-    } else {
-      await copyFile(sourcePath, targetPath);
-    }
-  }
-}
-
-// 执行构建命令
-function runBuild() {
-  return new Promise((resolve, reject) => {
-    const buildProcess = spawn(
-      /^win/.test(process.platform) ? "npm.cmd" : "npm",
-      ["run", "export"],
-      {
-        cwd: path.join(__dirname, "../"),
-        stdio: "inherit",
-        shell: true,
-      }
-    );
-    buildProcess.on("close", (code) => {
-      if (code !== 0) {
-        reject(`Build Fail Error: ${code}`);
-      } else {
-        resolve();
-      }
-    });
-
-    buildProcess.on("error", (error) => {
-      reject(`执行构建时出错: ${error.message}`);
-    });
-  });
-}
-
-// 主函数
-async function main() {
+// 安全创建目录（递归）
+const ensureDir = async (dir) => {
   try {
-    await copyDirectory(currentDirectory, targetDirectory);
-    await runBuild();
-    await copyDirectory(path.join(__dirname, "../out"), path.join(currentDirectory, "_documents"));
-  } catch (error) {
-    console.error(error);
+    await fs.promises.mkdir(dir, { recursive: true });
+  } catch (err) {
+    if (err.code !== 'EEXIST') throw err;
+  }
+};
+
+// 清空目录（递归）
+const clearDir = async (dir) => {
+  if (!fs.existsSync(dir)) return;
+
+  const items = await fs.promises.readdir(dir);
+  await Promise.all(items.map(async (item) => {
+    const itemPath = path.join(dir, item);
+    const stat = await fs.promises.stat(itemPath);
+
+    if (stat.isDirectory()) {
+      await clearDir(itemPath);
+      await fs.promises.rmdir(itemPath);
+    } else {
+      await fs.promises.unlink(itemPath);
+      console.log(`Deleted: ${itemPath}`);
+    }
+  }));
+};
+
+// 复制文件或目录（递归）
+const copyItem = async (source, target) => {
+  const stat = await fs.promises.stat(source);
+
+  if (stat.isDirectory()) {
+    await ensureDir(target);
+    const items = await fs.promises.readdir(source);
+    await Promise.all(items.map(item =>
+      copyItem(path.join(source, item), path.join(target, item))
+    ));
+  } else if (!shouldIgnore(source)) {
+    await fs.promises.copyFile(source, target);
+    console.log(`Copied: ${source} → ${target}`);
+  }
+};
+
+// 跨平台执行命令
+const runCommand = (command, args, cwd) => {
+  return new Promise((resolve, reject) => {
+    const proc = spawn(command, args, {
+      cwd,
+      stdio: 'inherit',
+      shell: true
+    });
+
+    proc.on('close', (code) =>
+      code === 0 ? resolve() : reject(`Command failed with code ${code}`)
+    );
+    proc.on('error', reject);
+  });
+};
+
+const build = async () => {
+  try {
+    console.log('[1/3] Copying source files...');
+    await ensureDir(CONFIG.targetDir);
+    await clearDir(CONFIG.targetDir);
+    await copyItem(CONFIG.sourceDir, CONFIG.targetDir);
+
+    console.log('[2/3] Building project...');
+    await runCommand('npm', CONFIG.buildCommand, path.dirname(__dirname));
+
+    console.log('[3/3] Moving output files...');
+    await ensureDir(CONFIG.outputDir);
+    await clearDir(CONFIG.outputDir);
+    await copyItem(path.join(__dirname, "../out"), CONFIG.outputDir);
+
+    console.log('✅ Done!');
+  } catch (err) {
+    console.error('❌ Error:', err);
+    process.exit(1);
+  }
+};
+
+
+// 初始化命令：创建 meta.json
+async function initProject() {
+  const metaPath = path.join(process.cwd(), CONFIG.metaFile);
+  if (fs.existsSync(metaPath)) {
+    console.log('⚠️  meta.json already exists');
+    return;
+  }
+
+  try {
+    await fs.promises.writeFile(
+      metaPath,
+      JSON.stringify(CONFIG.defaultMeta, null, 2)
+    );
+    console.log('✅ Created meta.json');
+  } catch (err) {
+    console.error('❌ Failed to create meta.json:', err);
   }
 }
 
-main();
+// 构建命令（复用你之前的逻辑）
+async function buildProject() {
+  console.log('🚀 Building project...');
+  build()
+}
+
+// 主入口
+async function main() {
+  const [_, __, command] = process.argv; // 获取命令行参数
+
+  switch (command) {
+    case 'init':
+      await initProject();
+      break;
+    case 'build':
+      await buildProject();
+      break;
+    default:
+      console.log(`
+Usage:
+  NiveFlare init    - Create meta.json
+  NiveFlare build   - Build project
+      `);
+      process.exit(1);
+  }
+}
+
+main().catch(console.error);
