@@ -9,8 +9,7 @@ import Date from "../../components/date";
 import { MDXRemote, MDXRemoteProps } from "next-mdx-remote";
 import "prismjs/themes/prism-okaidia.min.css";
 import style from "./post.module.css";
-import LinkTree from "../../components/IndexTree";
-import type { TreeDataNode } from "antd";
+import LinkTree, { TreeNode } from "../../components/IndexTree";
 interface Props {
   postData: {
     title: string;
@@ -18,7 +17,7 @@ interface Props {
     content: MDXRemoteProps;
     tags: string[];
   };
-  treeData: TreeDataNode[];
+  treeData: TreeNode[];
 }
 
 export default function Post({ postData, treeData }: Props) {
