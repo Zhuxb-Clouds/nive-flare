@@ -61,7 +61,7 @@ const TreeNodeComponent = ({
             {isExpanded ? "▼" : "▶"}
           </span>
         )}
-        <span style={{ fontWeight: isSelected ? "bold" : "normal" }}>
+        <span style={{ fontWeight: isSelected ? "bold" : "normal", color: isSelected ? "var(--selection-color)" : "inherit" }}>
           {node.title}
         </span>
       </div>
@@ -112,14 +112,41 @@ export default function LinkTree({ treeData }: LinkTreeProps) {
     );
   };
 
+  // 递归查找节点路径的函数
+  const findNodePath = (nodes: TreeNode[], targetKey: string): string[] => {
+    for (const node of nodes) {
+      if (node.key === targetKey) {
+        return [node.key];
+      }
+      if (node.children) {
+        const childPath = findNodePath(node.children, targetKey);
+        if (childPath.length > 0) {
+          return [node.key, ...childPath];
+        }
+      }
+    }
+    return [];
+  };
+
+  // 获取到指定节点的所有父节点路径
+  const getExpandedKeysForPath = (targetKey: string): string[] => {
+    const path = findNodePath(treeData, targetKey);
+    // 返回除了最后一个节点之外的所有父节点（用于展开）
+    return path.slice(0, -1);
+  };
+
   useEffect(() => {
     const path = window.location.pathname;
     if (path.includes("/posts/")) {
-      const key = path.replace(/^\/posts\//, "").replace(/\.md$/, "");
-      setExpandedKeys([decodeURI(key)]);
-      setSelectedKeys([decodeURI(key)]);
+      const key = decodeURI(path.replace(/^\/posts\//, "").replace(/\.md$/, ""));
+      
+      // 获取需要展开的所有父节点
+      const expandedKeysForCurrentPath = getExpandedKeysForPath(key);
+      
+      setExpandedKeys(expandedKeysForCurrentPath);
+      setSelectedKeys([key]);
     }
-  }, []);
+  }, [treeData]);
 
   return (
     <div style={{ fontFamily: "sans-serif", fontSize: "14px" }}>
