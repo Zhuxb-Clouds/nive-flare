@@ -2,7 +2,6 @@
 module.exports = {
   output: 'export',
   reactStrictMode: true,
-  swcMinify: true,
   distDir: "build",
   images: {
     unoptimized: true,
