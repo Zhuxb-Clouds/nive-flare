@@ -22,16 +22,6 @@ const MyDocument = () => {
         />
         <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Lora&display=swap" rel="stylesheet" />
-        <link
-          rel="stylesheet"
-          href="https://jsd.cdn.zzko.cn/npm/katex@0.16.0/dist/katex.min.css"
-          integrity="sha384-Xi8rHCmBmhbuyyhbI88391ZKP2dmfnOl4rT9ZfRI7mLTdk1wblIUnrIq35nqwEvC"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="stylesheet"
-          href="https://jsd.cdn.zzko.cn/npm/@wc1font/fontquan-xin-yi-ji-xiang-song/font.css"
-        />
         {avatar ? <link rel="icon" href={avatar} type="image/ico" /> : ""}
       </Head>
       <script
@@ -59,11 +49,11 @@ MyDocument.getInitialProps = async (ctx: DocumentContext) => {
   ctx.renderPage = () =>
     originalRenderPage({
       enhanceApp: (App) => (props) =>
-      (
-        <StyleProvider cache={cache}>
-          <App {...props} />
-        </StyleProvider>
-      ),
+        (
+          <StyleProvider cache={cache}>
+            <App {...props} />
+          </StyleProvider>
+        ),
     });
 
   const initialProps = await Document.getInitialProps(ctx);
